@@ -5,6 +5,7 @@
 #include <vector>
 #include<windows.h>
 #pragma hdrstop
+#include "test.h"
 using namespace std;
 
 
@@ -110,24 +111,6 @@ input_numbers(size_t count)
     return result;
 }
 
-void
-find_minmax (const vector <double>& numbers, double& min, double& max)
-{
-    min = numbers[0];
-    max = numbers[0];
-    for (size_t i=0; i<size(numbers); i++)
-    {
-        if(numbers[i] > max)
-        {
-            max = numbers[i];
-        }
-        if (numbers[i] < min)
-        {
-            min = numbers[i];
-        }
-    }
-
-}
 
 
 void
@@ -180,7 +163,7 @@ show_histogram_svg(const vector<size_t>& bins)
         const double bin_width = BLOCK_WIDTH * bin;
         const double text_wid= IMAGE_WIDTH-bin_width-30;
         svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin));
-        svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT,"black", "#3CB371");
+        svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT,"black", "#FFA500");
         top += BIN_HEIGHT;
     }
     svg_text(TEXT_LEFT, TEXT_BASELINE, to_string(bins[0]));
@@ -203,12 +186,15 @@ int main()
     const vector <double>& numbers = input_numbers(number_count);
 
     size_t bin_count;
+     double min;
+    double max;
+    find_minmax(numbers, min, max);
+
+
     cerr << "Enter bin count" << endl;
     cin >> bin_count;
     // Расчет гистограммы
-    double min;
-    double max;
-    find_minmax(numbers, min, max);
+
 
 
     const auto bins = make_histogram(bin_count, max, min, numbers);
