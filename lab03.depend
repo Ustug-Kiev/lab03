@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1650282639 source:e:\Прога\lab\lab03\lab03\main.cpp
+1650291119 source:e:\Прога\lab\lab03\lab03\main.cpp
 	<iostream>
 	<math.h>
 	<conio.h>
@@ -7,10 +7,15 @@
 	<vector>
 	<windows.h>
 	"test.h"
+	"svg.h"
 
 1650283244 e:\Прога\lab\lab03\lab03\test.h
 	<vector>
 
-1650283244 source:e:\Прога\lab\lab03\lab03\test.cpp
+1650287271 source:e:\Прога\lab\lab03\lab03\test.cpp
 	"test.h"
+
+1650291967 e:\Прога\lab\lab03\lab03\svg.h
+	<iostream>
+	<vector>
 
