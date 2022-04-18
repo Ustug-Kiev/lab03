@@ -33,15 +33,30 @@ void svg_rect(double x, double y, double width, double height,string stroke, str
 
 
 void
-show_histogram_svg(const vector<size_t>& bins)
+show_histogram_svg(const vector<size_t>& bins, const vector <double>& numbers)
 {
-    const auto IMAGE_WIDTH = 400;
+    const auto BLOCK_WIDTH = 10;
+
+    double gistogram_width;
+    cerr << "Enter gistogram width : ";
+    cin >> gistogram_width;
+    while (gistogram_width < 70 || gistogram_width > 800 || gistogram_width< size(numbers)/3.0 * BLOCK_WIDTH)
+    {
+        cerr << "There is erorr" << endl;
+        cin >> gistogram_width;
+    }
+    double IMAGE_WIDTH;
+
+
+    IMAGE_WIDTH = gistogram_width;
+
+
     const auto IMAGE_HEIGHT = 300;
     const auto TEXT_LEFT = 20;
     const auto TEXT_BASELINE = 20;
     const auto TEXT_WIDTH = 50;
     const auto BIN_HEIGHT = 30;
-    const auto BLOCK_WIDTH = 10;
+
     const string stroke = "black";
     const string fill = "#3CB371";
     svg_begin(IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -56,4 +71,15 @@ show_histogram_svg(const vector<size_t>& bins)
     }
     svg_text(TEXT_LEFT, TEXT_BASELINE, to_string(bins[0]));
     svg_end();
+
+}
+
+bool check(size_t count, double gistogram_width)
+{
+    bool f = true;
+    if (gistogram_width < 70 || gistogram_width > 800 || gistogram_width< count/3.0 * 10)
+    {
+        f = false;
+    }
+    return f;
 }

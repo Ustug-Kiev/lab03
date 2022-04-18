@@ -18,7 +18,10 @@ void svg_rect(double x, double y, double width, double height,string stroke, str
 
 
 void
-show_histogram_svg(const vector<size_t>& bins);
+show_histogram_svg(const vector<size_t>& bins, const vector <double>& numbers);
+
+bool
+check(size_t count, double gistogram_width);
 
 
 
