@@ -40,7 +40,7 @@ show_histogram_svg(const vector<size_t>& bins, const vector <double>& numbers)
     double gistogram_width;
     cerr << "Enter gistogram width : ";
     cin >> gistogram_width;
-    while (gistogram_width < 70 || gistogram_width > 800 || gistogram_width< size(numbers)/3.0 * BLOCK_WIDTH)
+    while (check(size(numbers), gistogram_width) == false)
     {
         cerr << "There is erorr" << endl;
         cin >> gistogram_width;
