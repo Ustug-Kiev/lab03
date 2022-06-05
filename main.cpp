@@ -7,8 +7,24 @@
 #pragma hdrstop
 #include "test.h"
 #include "svg.h"
+#include <curl/curl.h>
 
 using namespace std;
+
+
+vector <double>
+input_numbers(istream& in, size_t count)
+{
+    vector <double> result(count);
+    for (size_t i=0; i<count; i++)
+    {
+        cerr << i << ")";
+        cin >> result[i];
+    }
+    return result;
+}
+
+
 
 
 void show_gistogram (const auto bins, size_t number_count)
@@ -74,85 +90,88 @@ void show_gistogram (const auto bins, size_t number_count)
 
 }
 
-vector <size_t>
-make_histogram(size_t bin_count, double max, double min, vector <double> numbers)
+vector<double>
+make_histogram(Input data)
 {
-    vector <size_t> bins(bin_count, 0);
-    double bin_size = (max - min) / bin_count;
-    for (size_t i = 0; i < size(numbers); i++)
+    double min,max;
+    find_minmax(data.numbers,min,max);
+    vector<double> bins(data.bin_count,0);
+    double bin_size = (max - min) / data.bin_count;
+    for(size_t i=0; i<data.numbers.size(); i++)
     {
-        bool found = false;
-        for (size_t j = 0; j < bin_count-1 && !found; j++)
+        bool found=false;
+        for(size_t j=0; j<(data.bin_count-1) && !found; j++)
         {
-            auto low = min + j * bin_size;
-            auto hi = min + ((j + 1) * bin_size);
-            if (low <= numbers[i] && hi > numbers[i])
+            auto lo = min + j*bin_size;
+            auto hi = min + (j + 1)*bin_size;
+            if((lo <= data.numbers[i]) && (data.numbers[i]<hi))
             {
                 bins[j]++;
-                found = true;
+                found =true;
             }
         }
-        if (!found)
+        if(!found)
         {
-            bins[bin_count - 1]++;
+            bins[data.bin_count-1]++;
         }
     }
     return bins;
 }
 
 
-vector <double>
-input_numbers(size_t count)
-{
-    vector <double> result(count);
-    for (size_t i=0; i<count; i++)
+Input
+read_input(istream& in, size_t number_count, bool promt)
+ {
+    Input data;
+
+    if (promt)
     {
-        cerr << i << ")";
-        cin >> result[i];
+        cerr << "Enter number count: ";
     }
-    return result;
+    in >> number_count;
+
+    if (promt)
+    {
+        cerr << "Enter numbers: ";
+    }
+
+    data.numbers = input_numbers(cin, number_count);
+
+    // ...
+    if (promt)
+    {
+        cerr << "Enter bin count: ";
+    }
+
+    in >> data.bin_count;
+
+
+    return data;
 }
 
 
 
 
-
-
-
-
-
-
-
-
-
-int main()
+int main(int argc, char* argv[])
 {
-    setlocale(LC_ALL, "RU");
 
-    // Ввод данных
+    if (argc >1)
+    {
+        cout << "argc = " << argc << endl;
+        for (size_t i =0; i<argc; i++)
+        {
+            cout << "argv[" << i << "] = " << argv[i] << endl;
+        }
+        return 0;
+    }
+    curl_global_init(CURL_GLOBAL_ALL);
+
     size_t number_count;
-    cerr << "Enter number count" << endl;
-    cin >> number_count;
-    const vector <double>& numbers = input_numbers(number_count);
 
-    size_t bin_count;
-     double min;
-    double max;
-    find_minmax(numbers, min, max);
+    Input input;
+    input = read_input(cin,number_count, true);
+    const auto bins = make_histogram(input);
+    show_histogram_svg(bins, number_count);
 
-
-    cerr << "Enter bin count" << endl;
-    cin >> bin_count;
-    // Расчет гистограммы
-
-
-
-    const auto bins = make_histogram(bin_count, max, min, numbers);
-
-    show_histogram_svg(bins, numbers);
-
-
-    //Вывод данных
-
-
+    return 0;
 }
