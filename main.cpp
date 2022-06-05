@@ -164,6 +164,8 @@ int main(int argc, char* argv[])
         }
         return 0;
     }
+
+
     curl_global_init(CURL_GLOBAL_ALL);
 
     size_t number_count;
@@ -172,6 +174,7 @@ int main(int argc, char* argv[])
     input = read_input(cin,number_count, true);
     const auto bins = make_histogram(input);
     show_histogram_svg(bins, number_count);
+
 
     return 0;
 }
